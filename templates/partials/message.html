@@ -1,0 +1,12 @@
+{% if message %}
+    <article id='message' class="message {{ 'is-warning' if is_warning else 'is-info' }}">
+        <div class="message-body">
+            {{ message }}
+        </div>
+        <script>
+            setTimeout(function () {
+                document.getElementById('message').style.display = 'none';
+            }, 5000);
+        </script>
+    </article> <!-- 这里添加了闭合标签 -->
+{% endif %}

@@ -1,0 +1,47 @@
+{ 
+  "app": {
+    "host": "0.0.0.0",
+    "port": 3008,
+    "static_folder": "static",
+    "upload_folder": "static/images"
+  },
+  "sdxl": {
+    "invoke_url": "" ,
+    "fetch_url_format": "https://api.nvcf.nvidia.com/v2/nvcf/pexec/status/",
+    "headers": {
+        "Authorization": "",
+        "Accept": "application/json"
+    }
+  },
+  "llama2": {
+    "invoke_url": "",
+    "fetch_url_format": "https://api.nvcf.nvidia.com/v2/nvcf/pexec/status/",
+    "headers": {
+        "Authorization": "",
+        "Accept": "application/json"
+    }
+  },
+  "azure_openai":{
+      "api_key": "",
+      "api_base": "",
+      "deployment_name": "",
+      "api_version": ""
+  },
+  "website": {
+    "name": "cvprLab",
+    "title": "Sky Hackathon",
+    "description": "Change this description by modify config.json.",
+    "source_license": "MIT",
+    "license_link": "http://opensource.org/licenses/mit-license.php",
+    "source_link": "https://github.com/1438802682/NarrativeCanvas",
+    "help_link": "https://github.com/1438802682/NarrativeCanvas",
+    "owner_name": "CtrlX",
+    "owner_link": "https://github.com/1438802682"
+  },
+  "models": {
+    "sky": {
+      "name": "(Premium) Narrative Canvas: Image-Inspired Storytelling - cvprLab",
+      "description": "These models, pre-trained on ImageNet1K using mmpretrain from the mmlab library, are accelerated for inference with TensorRT."
+    }
+  }
+}

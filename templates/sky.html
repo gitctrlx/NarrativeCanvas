@@ -1,0 +1,230 @@
+{% include './partials/header.html' %}
+
+<div class="horizontal-layout">
+    {% include './partials/message.html' %}
+    <div class="page-card">
+        <div class="page-card-title">{{ title }}</div>
+        <br>
+        <div class="story-container">
+            <article class="message">
+                <div class="message-body">
+                    {{ description }}
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <div class="content-tab">
+        <div class="columns">
+            <div class="column">
+                <div class="field">
+                    <br>
+                    <label class="label">Upload images and select models</label>
+                    <button id="uploadButton" class="button is-light">Upload Images (max: 8 img)</button>
+<!--                    <input type="submit" onclick="clearFilesContent()" value="Clear File Content" class="button is-light">-->
+                    <div class="select">
+                        <select id="model_name" name="model_name" style="width: 300px;">
+                            <option value="vgg11_8xb32_in1k">(2014)VGG 11</option>
+                            <option value="inception-v3_3rdparty_8xb32_in1k">(2015)Inception v3</option>
+                            <option value="resnet50_8xb256-rsb-a1-600e_in1k">(2015)ResNet 50</option>
+                            <option value="resnext50-32x4d_8xb32_in1k">(2017)ResNeXt 50</option>
+                            <option value="seresnet50_8xb32_in1k">(2018)SE-ResNet 50</option>
+                            <option value="shufflenet-v1-1x_16xb64_in1k">(2018)ShuffleNet v1</option>
+                            <option value="shufflenet-v2-1x_16xb64_in1k">(2018)ShuffleNet v2</option>
+                            <option value="res2net50-w14-s8_3rdparty_8xb32_in1k">(2019)Res2Net 50</option>
+                            <option value="mobilenet-v2_8xb32_in1k">(2018)MobileNet v2</option>
+                            <option value="mobilenet-v3-small-050_3rdparty_in1k">(2019)MobileNet v3</option>
+                            <option value="regnetx-400mf_8xb128_in1k">(2020)RegNet</option>
+                            <option value="efficientnet-b0_3rdparty_8xb32_in1k">(2019)EfficientNet</option>
+                            <option value="efficientnetv2-b0_3rdparty_in1k">(2021)EfficientNet v2</option>
+                            <option value="vit-base-p32_in21k-pre_3rdparty_in1k-384px">(2021)Vision Transformer</option>
+                            <option value="swin-tiny_16xb64_in1k">(2021)Swin Transformer</option>
+                            <option value="conformer-tiny-p16_3rdparty_in1k">(2021)Conformer</option>
+                            <option value="twins-pcpvt-small_3rdparty_8xb128_in1k">(2021)Twins</option>
+                            <option value="t2t-vit-t-14_8xb64_in1k">(2021)Tokens-to-Token ViT</option>
+                            <option value="mobilevit-small_3rdparty_in1k">(2021)MobileViT</option>
+                            <option value="clip-vit-base-p16_openai-pre_3rdparty_in1k">(2021)CLIP</option>
+                            <option value="deit-tiny_4xb256_in1k">(2021)DeiT</option>
+                            <option value="deit3-small-p16_3rdparty_in1k">(2022)DeiT3</option>
+                            <option value="mvitv2-tiny_3rdparty_in1k">(2022)MViT V2</option>
+                            <option value="mobileone-s0_8xb32_in1k">(2022)MobileOne</option>
+                            <option value="edgenext-xxsmall_3rdparty_in1k">(2022)EdgeNeXt</option>
+                            <option value="efficientvit-b3-r224">(2023)EfficientVit</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control">
+                    <img src="{{ url_for('static', filename='placeholder.png') }}" id="showSrcImage" alt="Source Image">
+                </div>
+                <div class="button-container">
+                    <button id="prevButton" class="button is-light">Previous Image</button>
+                    <button id="nextButton" class="button is-light">Next  Image</button>
+                    <button type="button" class="button is-light" onclick="Build()">[Build Engine]</button>
+                    <button type="button" class="button is-light" onclick="Infer()">[Execute Infer]</button>
+                </div>
+            </div>
+            <div class="column">
+                <br>
+                <label class="label">ImageNet 1K Label probability Top5</label>
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" name="accuracy" value="fp32"> fp32
+                    </label>
+                    <label class="radio">  
+                        <input type="radio" name="accuracy" value="fp16" checked> fp16
+                    </label>    
+                    <label class="radio">
+                        <input type="radio" name="accuracy" value="int8"> int8
+                    </label>
+                </div>
+                <div style="width: 730px; height: 470px;">
+                    <canvas id="myCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="columns">
+            <div class="column">
+                <div class="field">
+                    <label class="label">Parameter</label>
+                    <p>Select Model</p>
+                    <div class="select">
+                        <select id="model_story" name="model_story" style="width: 250px;">
+                            <option value="llama2">NV-Llama2-70B-SteerLM-Chat</option>
+                            <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+                        </select>
+                    </div>
+                    </br>
+                    </br>
+                    <p>Choose a style</p>
+                    <div class="select">
+                        <select id="style_story" name="style_story" style="width: 250px;">
+                            <option value="Random style">(无)</option>
+                            <option value="Create a story with an intricate plot that involves a mystery which the main character tries to solve, revealing unexpected twists.">悬疑</option>
+                            <option value="Develop a narrative set in a magical world filled with mythical creatures, enchanted objects, and complex lore.">幻想</option>
+                            <option value="Write a story that explores futuristic concepts, advanced technology, space travel, and potentially, alien life.">科幻</option>
+                            <option value="Narrate a love story that explores the emotional development of a relationship between two individuals.">浪漫</option>
+                            <option value="Craft a tale that induces fear and suspense, involving elements like ghosts, monsters, or psychological thrills.">恐怖</option>
+                            <option value="Weave a story set in a specific historical period, incorporating real historical figures or events with fictional characters.">历史小说 </option>
+                            <option value="Tell a story of an epic journey or quest, filled with challenges, obstacles, and discoveries.">冒险</option>
+                            <option value="Create a humorous narrative that includes witty dialogue, funny situations, or satirical elements.">喜剧</option>
+                            <option value="Develop a story set in a dystopian future, exploring themes of oppression, rebellion, and survival.">反乌托邦</option>
+                            <option value="Write a story in the style of film noir, featuring a cynical hero, a femme fatale, and a dark, moody atmosphere.">黑色电影</option>
+                            <option value="Narrate a story where magical elements are a natural part of an otherwise mundane world.">魔幻现实主义</option>
+                            <option value="Craft a fast-paced, high-stakes story that keeps the reader on the edge of their seat, often involving crime or espionage.">惊悚</option>
+                            <option value= "Develop a narrative with a strong emphasis on character development, introspective, and thematic depth.">文学小说</option>
+                            <option value="Tell a story about a young protagonist's journey towards adulthood, exploring themes of identity, belonging, and transformation.">成长</option>
+                            <option value="Create a story with surreal, dream-like scenes and nonsensical, illogical sequences that challenge the perception of reality.">原超现实主义</option>
+                        </select>
+                    </div>
+                    </br>
+                    </br>
+                    <p>Choose a theme</p>
+                    <div class="select">
+                        <select id="theme_story" name="theme_story" style="width: 250px;">
+                            <option value="Random theme">(无)</option>
+                            <option value="A Chance Encounter">偶然相遇</option>
+                            <option value="The Last Dream">最后一个梦</option>
+                            <option value="A Moment of Courage">勇气的瞬间</option>
+                            <option value="The Forgotten Letter">被遗忘的信</option>
+                            <option value="A Mysterious Gift">神秘礼物</option>
+                            <option value="The Lost Key">丢失的钥匙</option>
+                            <option value="Supernatural Thriller">超自然惊悚</option>
+                            <option value="Ancient Mythology">古代神话</option>
+                            <option value="Romance Stories">恋爱故事</option>
+                            <option value="Mystery Detective">推理侦探</option>
+                            <option value="Survival Challenge">生存挑战</option>
+                            <option value="Deep Sea Exploration">深海探秘</option>
+                            <option value="Space Exploration">太空探险</option>
+                            <option value="Superheroes">超级英雄</option>
+                            <option value="Coming of Age">青春校园</option>
+                            <option value="Time Travel">时间旅行</option>
+                            <option value="Alternative History">另类历史</option>
+                            <option value="Cultural Exploration">文化探索</option>
+                            <option value="Environmental Preservation">环境保护</option>
+                            <option value="Cyberpunk">赛博朋克</option>
+                        </select>
+                    </div>
+                    </br>
+                    </br>
+                     <p>(Optional)Custom prompt</p>
+                     <input class="input" id="custom_prompt_story" type="text" placeholder="Type your own prompt." style="width: 250px;">
+                </div>
+            </div>
+            <div class="column">
+                <div class="field">
+                    <label class="label">Story Generation</label>
+                    <div class="text-box-container">
+                        <textarea id="story-text-box" class="text-box" rows="4" placeholder="Your story is currently being generated..."></textarea>
+                    </div>
+                    <div class="button-container">
+                        <button type="button" class="button is-light" onclick="GenerateStory()">Generate a story</button>
+                        <button type="button" class="button is-light" onclick="ContinueWriting()">Continuing write</button>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="field">
+                    <label class="label">Parameter</label>
+                    <p>Select Model</p>
+                    <div class="select">
+                        <select id="model_image" name="model_image" style="width: 250px;">
+                            <option value="sdxl">Stable Diffusion XL</option>
+                        </select>
+                    </div>
+                    </br>
+                    </br>
+                    <p>Choose a style</p>
+                    <div class="select">
+                        <select id="style_image" name="style_image" style="width: 250px;">
+                            <option value="Random style">(无)</option>
+                            <option value="A dreamlike landscape with floating objects and distorted perspectives, rich in symbolism and vivid colors, surrealistic style.">超现实主义</option>
+                            <option value="A landscape at sunset with quick, visible brushstrokes capturing the changing light and color, impressionistic style.">印象主义</option>
+                            <option value="A cityscape with geometric shapes, sleek lines, and elegant forms, featuring bold and simple colors, art deco style.">装饰艺术</option>
+                            <option value="A futuristic city at night, neon lights, high-tech gadgets amidst urban decay, cyberpunk style.">赛博朋克</option>
+                            <option value="A serene landscape with dramatic skies, emphasis on nature's beauty and emotional expression, romantic style.">浪漫风情</option>
+                            <option value="An elaborate historical scene with grandeur, rich details, dramatic lighting, and intense emotions, baroque style.">巴洛克 </option>
+                            <option value="A composition with simple geometric forms, limited color palette, and emphasis on space and simplicity, minimalist style.">极简主义</option>
+                            <option value="A traditional Japanese scene with flat areas of color and graceful lines, featuring nature or daily life, ukiyo-e style.">浮世绘</option>
+                            <option value="A bold and vibrant artwork featuring popular culture elements, bright colors, and a comic-like feel, pop art style.">波普艺术</option>
+                            <option value="A retro-futuristic scene with steam-powered machinery, Victorian era aesthetics, and industrial elements, steampunk style.">蒸汽朋克</option>
+                            <option value="A refined and sophisticated artwork with classical themes, balanced composition, and elegant lines, classically elegant style.">古典优雅</option>
+                            <option value="A dark and mysterious scene with gothic architecture, intricate details, and a moody atmosphere, gothic style.">哥特式</option>
+                            <option value= "An artwork with intricate details, delicate textures, and a focus on fine craftsmanship, delicately detailed style.">精致细腻</option>
+                            <option value="A wild and untamed landscape with primal elements, vibrant natural colors, and a sense of rawness, primal and wild style.">原始野性</option>
+                            <option value="A magical and whimsical scene with mythical creatures, fantastical landscapes, and an otherworldly feel, fantastical style.">幻想奇幻</option>
+                            <option value="A modern urban setting with contemporary elements, dynamic compositions, and a blend of street and fine art, urban contemporary style.">都市现代</option>
+                            <option value="An artwork depicting traditional folk themes, with vibrant patterns, handmade quality, and cultural motifs, folk and traditional style.">民俗传统</option>
+                            <option value="A historical scene with balanced composition, realism, and depth, inspired by Renaissance art and themes.">古典文艺复兴</option>
+                            <option value="A charming and adorable artwork with soft colors, playful subjects, and a heartwarming feel, cute style.">可爱</option>
+                        </select>
+                    </div>
+                    </br>
+                    </br>
+                    <p>(Optional)Positive prompt</p>
+                    <input class="input" id="custom_prompt_image" type="text" placeholder="Type your own prompt." style="width: 250px;">
+                    </br>
+                    </br>
+                    <p>(Optional)Negative prompt</p>
+                     <input class="input" id="negative_prompt" type="text" placeholder="Type your own prompt." style="width: 250px;">
+                </div>
+            </div>
+            <div class="column">
+                <div class="field">
+                    <label class="label">Generated Image</label>
+                    <figure class="image is-generateimg" style="margin-bottom: 8px">
+                        <a href="/static/placeholder.png" target="_blank">
+                            <img src="{{ url_for('static', filename='placeholder.png') }}" id="generateImg" alt="Source Image"">
+                        </a>
+                    </figure>
+                    <button type="button" class="button is-light" onclick="GenerateImg()">Generate a image</button>
+                    <a id="downloadLink" href="/static/placeholder.png" download="image.jpg">
+                        <button class="button is-light">Download</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include './partials/footer.html' %}

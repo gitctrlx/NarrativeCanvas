@@ -1,0 +1,7 @@
+flask
+munch
+opencv-python
+cuda-python
+openai
+langchain
+nemoguardrails
