@@ -4,6 +4,10 @@ Narrative Canvas, also known as "Language Within the Paintings," is the very ess
 
 This project has successfully implemented image inference tasks, text generation tasks, and image generation tasks on the Jetson development board. It utilizes TensorRT for accelerated inference and Flask to run the UI page. This project was awarded first place in the Nvidia 9th Sky Hackathon competition.
 
+## Demonstration
+
+<iframe src="//player.bilibili.com/player.html?aid=279443075&bvid=BV1rc411D7pP&cid=1359524385&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
 The entire project workflow can be divided into the following steps:
 
 1. Image Inference
