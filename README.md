@@ -6,7 +6,7 @@ This project has successfully implemented image inference tasks, text generation
 
 ## Demonstration
 
-<iframe src="//player.bilibili.com/player.html?aid=279443075&bvid=BV1rc411D7pP&cid=1359524385&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+Video Demonstration Link: https://www.bilibili.com/video/BV1rc411D7pP
 
 The entire project workflow can be divided into the following steps:
 
