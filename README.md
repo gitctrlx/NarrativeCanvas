@@ -101,7 +101,7 @@ docker run --gpus all --rm -it -p 3008:3008 -v %cd%:/sky sky
 > Note:  When you start the sky container with the default command mentioned above, it automatically executes the following command: `gunicorn -b 0.0.0.0:3008 app:app`. Alternatively, you can also use the following command to start the container using Flask's default command. Using Gunicorn to deploy our application can achieve higher performance.
 
 ```
-docker run --gpus all --rm -it -p 3008:3008 -v %cd%:/sky sky flask run
+docker run --gpus all --rm -it -p 3008:3008 -v %cd%:/sky sky python app.py
 ```
 
 - Linux:
